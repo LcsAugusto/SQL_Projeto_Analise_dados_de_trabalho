@@ -509,5 +509,14 @@ Concluo esse projeto com a certeza de que estou no caminho certo — e com ainda
 
 **Aprendizado contínuo, adaptação e curiosidade serão minhas ferramentas daqui para frente.**
 
+## *Observações*
 
+- O arquivo `job_postings_fact.csv`, localizado na pasta `job_postings_fact_csv/`, possui mais de 100 MB e excede o limite padrão de arquivos suportados pelo GitHub.
+- Para contornar essa limitação, foi utilizado o [Git LFS (Large File Storage)](https://git-lfs.github.com/) para armazenar o arquivo corretamente no repositório.
+- Para clonar o repositório com o arquivo incluído, é necessário ter o Git LFS instalado. Utilize os comandos abaixo:
 
+```bash
+git lfs install
+git clone https://github.com/LcsAugusto/SQL_Projeto_Analise_dados_de_trabalho.git
+```
+ Caso o Git LFS não esteja instalado, o arquivo CSV será clonado como um ponteiro de texto (.gitattributes), e não como o arquivo real.
