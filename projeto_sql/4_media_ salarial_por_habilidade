@@ -1,0 +1,149 @@
+/*Questão: Quais são as principais habilidades com base no salário? Qual a tendencia
+ de crescimento para essas habilidades?
+- Observe o salário médio associado a cada habilidade para cargos de Analista de Dados
+- Foca em funções com salários especificados, independentemente da localização
+- Por quê? Revela como diferentes habilidades influenciam os níveis salariais dos
+ Analistas de Dados e ajuda a identificar as habilidades mais lucrativas para adquirir ou aprimorar
+*/
+
+ SELECT
+    skills AS habilidades,
+    ROUND( AVG(salary_year_avg), 0) AS media_salarial
+FROM job_postings_fact
+    INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+    INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    job_title_short = 'Data Analyst' AND
+    salary_year_avg IS NOT NULL
+   -- job_work_from_home = TRUE AND 
+GROUP BY
+    skills
+ORDER BY
+    media_salarial DESC
+LIMIT 25
+
+/* Analise de tendencias que se confimaram de 2023 (ano do banco de dados)
+para 2025
+Habilidades de 2023 que se confirmaram como tendência em 2025:
+- Ferramentas como Keras, PyTorch, TensorFlow e Hugging Face continuam 
+entre as mais buscadas em 2025.
+- Keras, PyTorch, TensorFlow e Hugging Face continuam entre as mais buscadas em 2025
+- Ferramentas como Terraform, Ansible, Puppet, GitLab, Twilio, VMware e Airflow 
+são cada vez mais exigidas.
+- Algumas ferramentas específicas, como Dplyr (usado com R), ainda são usadas, mas o mercado está migrando
+fortemente para Python + pandas ou para plataformas com interfaces visuais (Power BI, Looker, Tableau).
+
+Possiveis analises para os proximos anos
+- Ferramentas como Hugging Face, LangChain e OpenAI APIs deixarão de ser diferencial e se tornarão padrão 
+para analistas que lidam com texto, geração de relatórios, análises automatizadas e atendimento via dados.
+- Saber usar SQL em plataformas como Snowflake, BigQuery ou Redshift, e construir transformações com 
+dbt e pipelines com Airflow ou Dagster, será obrigatório em empresas de médio e grande porte.
+- Soft skills e storytelling com dados terão o mesmo peso que técnica, a capacidade de transformar 
+dados em decisões claras e impactantes será cada vez mais valorizada.
+Ferramentas como Power BI e Tableau continuarão úteis, mas o diferencial estará em comunicar 
+bem os insights, com lógica, empatia e foco no negócio.
+
+[
+  {
+    "habilidades": "svn",
+    "media_salarial": "400000"
+  },
+  {
+    "habilidades": "solidity",
+    "media_salarial": "179000"
+  },
+  {
+    "habilidades": "couchbase",
+    "media_salarial": "160515"
+  },
+  {
+    "habilidades": "datarobot",
+    "media_salarial": "155486"
+  },
+  {
+    "habilidades": "golang",
+    "media_salarial": "155000"
+  },
+  {
+    "habilidades": "mxnet",
+    "media_salarial": "149000"
+  },
+  {
+    "habilidades": "dplyr",
+    "media_salarial": "147633"
+  },
+  {
+    "habilidades": "vmware",
+    "media_salarial": "147500"
+  },
+  {
+    "habilidades": "terraform",
+    "media_salarial": "146734"
+  },
+  {
+    "habilidades": "twilio",
+    "media_salarial": "138500"
+  },
+  {
+    "habilidades": "gitlab",
+    "media_salarial": "134126"
+  },
+  {
+    "habilidades": "kafka",
+    "media_salarial": "129999"
+  },
+  {
+    "habilidades": "puppet",
+    "media_salarial": "129820"
+  },
+  {
+    "habilidades": "keras",
+    "media_salarial": "127013"
+  },
+  {
+    "habilidades": "pytorch",
+    "media_salarial": "125226"
+  },
+  {
+    "habilidades": "perl",
+    "media_salarial": "124686"
+  },
+  {
+    "habilidades": "ansible",
+    "media_salarial": "124370"
+  },
+  {
+    "habilidades": "hugging face",
+    "media_salarial": "123950"
+  },
+  {
+    "habilidades": "tensorflow",
+    "media_salarial": "120647"
+  },
+  {
+    "habilidades": "cassandra",
+    "media_salarial": "118407"
+  },
+  {
+    "habilidades": "notion",
+    "media_salarial": "118092"
+  },
+  {
+    "habilidades": "atlassian",
+    "media_salarial": "117966"
+  },
+  {
+    "habilidades": "bitbucket",
+    "media_salarial": "116712"
+  },
+  {
+    "habilidades": "airflow",
+    "media_salarial": "116387"
+  },
+  {
+    "habilidades": "scala",
+    "media_salarial": "115480"
+  }
+]
+
+*/

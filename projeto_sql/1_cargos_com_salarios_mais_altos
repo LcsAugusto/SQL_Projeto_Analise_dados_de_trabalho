@@ -1,0 +1,147 @@
+/* Questão: Qual e o top salarios (salary_year_avg) para Data Analyst?
+- Identificar o top 10 salarios mais altos para Data Analyst remoto.
+- Foco em vagas de emprego com salarios especificados (remover Nulls)
+-Por que? Destacas as melhores oportunidades de salarios para Data Analyst, oferecendo insights 
+*/
+
+SELECT  
+    job_id AS id_vaga,
+    job_title AS titulo_da_vaga,
+    job_location AS localizacao,
+    job_schedule_type AS tipo_de_contrato,
+    salary_year_avg AS media_salarial_anual,
+    job_posted_date AS data_da_postagem,
+    name AS empresa
+FROM
+    job_postings_fact
+LEFT JOIN company_dim ON company_dim.company_id = job_postings_fact.company_id
+WHERE
+    job_title_short = 'Data Analyst'AND
+    salary_year_avg IS NOT NULL AND
+    (job_location LIKE '%Brazil%'OR
+    job_country LIKE '%Brazil'
+)
+ORDER BY
+    salary_year_avg DESC
+
+/* Insights
+
+A análise dos principais empregos de analista de dados no Brasil em 2023:
+
+- São Paulo é o principal polo de oportunidades:  
+  Mais da metade das vagas com maiores salários estão localizadas no estado de São Paulo, 
+  especialmente na capital e em cidades como Cotia e Campinas. Essa concentração reforça a
+  região como o principal hub de oportunidades para profissionais de dados no Brasil, beneficiando-se 
+  de uma maior oferta de empresas inovadoras e multinacionais com cultura data-driven.
+
+- Experiência e perfil técnico elevam o salário:
+  Os cargos com maiores salários costumam requerer níveis intermediários a avançados, refletidos
+  em títulos como "Mid-Level Data Analyst", "Product Data Analyst" e "AML Specialist". Além disso,
+  conhecimentos específicos em ferramentas e linguagens como Python, análise de produto, e 
+  especializações em áreas regulatórias (AML – Anti-Money Laundering) impactam positivamente a remuneração.
+
+- Remuneração está alinhada à complexidade e especialização das funções:
+  O mercado valoriza não apenas o tempo de experiência, mas também a capacidade analítica avançada,
+  domínio de ferramentas de visualização, manipulação de grandes volumes de dados e aplicação de 
+  técnicas estatísticas e de machine learning. Profissionais que apresentam essas habilidades tendem 
+  a alcançar salários mais competitivos.
+
+- Contratos full-time dominam as melhores oportunidades:
+  As vagas com salários mais elevados são predominantemente para posições em regime integral, o que 
+  sugere que o mercado valoriza o comprometimento e a dedicação plena dos analistas para entregas de 
+  maior impacto estratégico.
+
+[
+  {
+    "id_vaga": 1797292,
+    "titulo_da_vaga": "Data Analyst (Python)",
+    "localizacao": "Cotia - Caucaia do Alto, Cotia - State of São Paulo, Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "102500.0",
+    "data_da_postagem": "2023-04-26 04:27:35",
+    "empresa": "NielsenIQ"
+  },
+  {
+    "id_vaga": 1184831,
+    "titulo_da_vaga": "Data Analyst | Partners",
+    "localizacao": "São Paulo, State of São Paulo, Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "102500.0",
+    "data_da_postagem": "2023-02-16 12:19:11",
+    "empresa": "Gympass"
+  },
+  {
+    "id_vaga": 70304,
+    "titulo_da_vaga": "[Job 11234] Mid-Level Data Analyst - Brasil",
+    "localizacao": "Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "100500.0",
+    "data_da_postagem": "2023-08-04 18:17:10",
+    "empresa": "CI&T"
+  },
+  {
+    "id_vaga": 610221,
+    "titulo_da_vaga": "Product Data Analyst | Bees Martech",
+    "localizacao": "Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "98500.0",
+    "data_da_postagem": "2023-01-26 14:25:47",
+    "empresa": "BEES"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "localizacao": "Campinas, State of São Paulo, Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "79200.0",
+    "data_da_postagem": "2023-02-09 08:34:07",
+    "empresa": "CI&T"
+  },
+  {
+    "id_vaga": 703904,
+    "titulo_da_vaga": "Staff Data Analytics | Global Analytics",
+    "localizacao": "Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "79200.0",
+    "data_da_postagem": "2023-05-24 06:19:58",
+    "empresa": "Gympass"
+  },
+  {
+    "id_vaga": 475521,
+    "titulo_da_vaga": "AML Data Analytics Specialist",
+    "localizacao": "São Paulo, State of São Paulo, Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "79200.0",
+    "data_da_postagem": "2023-02-02 05:01:10",
+    "empresa": "Nubank"
+  },
+  {
+    "id_vaga": 1146822,
+    "titulo_da_vaga": "Data Analyst | Lisboa/ Porto",
+    "localizacao": "Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "75067.5",
+    "data_da_postagem": "2023-12-24 11:17:56",
+    "empresa": "NOS SGPS"
+  },
+  {
+    "id_vaga": 955403,
+    "titulo_da_vaga": "[Job- 11490] Mid Level Data Visualization Analyst, Brazil",
+    "localizacao": "Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "64800.0",
+    "data_da_postagem": "2023-08-23 07:31:59",
+    "empresa": "CI&T"
+  },
+  {
+    "id_vaga": 1282410,
+    "titulo_da_vaga": "Data Analyst",
+    "localizacao": "São Paulo, State of São Paulo, Brazil",
+    "tipo_de_contrato": "Full-time",
+    "media_salarial_anual": "57500.0",
+    "data_da_postagem": "2023-08-01 13:22:38",
+    "empresa": "Media.Monks"
+  }
+]
+
+*/

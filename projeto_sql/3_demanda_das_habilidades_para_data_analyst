@@ -1,0 +1,65 @@
+/* Questão: Quais são as habilidades mais demandadas para analistas de dados?
+- Junte as postagens de emprego à tabela de junção interna semelhante à consulta 2
+- Identifique as 5 principais habilidades mais demandadas para um analista de dados.
+- Concentre-se em todas as postagens de emprego.
+- Por quê? Recupera as 5 habilidades com maior demanda no mercado de trabalho, fornecendo 
+insights sobre as habilidades mais valiosas para os candidatos a emprego.
+*/
+
+SELECT
+    skills AS habilidades,
+    COUNT(skills_job_dim.job_id) AS demanda
+FROM job_postings_fact
+    INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+    INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    job_title_short = 'Data Analyst' AND
+    job_work_from_home = TRUE AND 
+    (job_location LIKE '%Brazil%' OR
+    job_country LIKE '%Brazil%'
+)
+GROUP BY
+    skills
+ORDER BY
+    demanda DESC
+LIMIT 5
+
+/*Insight 1: SQL é a habilidade mais demandada
+Com 93 ocorrências, SQL lidera como a competência mais requisitada nas 
+vagas para Analista de Dados com trabalho remoto no Brasil. Isso reforça a importância 
+do domínio em manipulação e consulta de bancos de dados para a função.
+
+Insight 2: Linguagem Python é a segunda habilidade mais valorizada
+Python aparece com 67 menções, destacando-se como a principal linguagem de 
+programação além do SQL. A presença forte do Python indica a necessidade de habilidades em 
+análise avançada, automação e manipulação de dados.
+
+Insight 3: Ferramentas de visualização e cloud têm peso significativo
+Tableau (36), AWS (27) e Power BI (26) aparecem entre as cinco principais demandas, mostrando que, além de 
+saber manipular dados, o analista precisa ser capaz de criar dashboards e trabalhar com soluções
+ em nuvem para análises mais dinâmicas e escaláveis.
+
+ [
+  {
+    "habilidades": "sql",
+    "demanda": "93"
+  },
+  {
+    "habilidades": "python",
+    "demanda": "67"
+  },
+  {
+    "habilidades": "tableau",
+    "demanda": "36"
+  },
+  {
+    "habilidades": "aws",
+    "demanda": "27"
+  },
+  {
+    "habilidades": "power bi",
+    "demanda": "26"
+  }
+]
+
+*/

@@ -1,0 +1,338 @@
+/* Questão: Quais são as habilidades (Skills) mais pedidas nas vagas de emprego?
+- Usar o top 10 vagas mais bem pagas para Data Analyst da primeira consulta
+- Adicione as vagas especificas para cada função
+- Por que? Fornecer uma visão para os candidatos quais habilidades são necessárias 
+desenvolver para se alinhar com os salarios mais bem pagos
+*/
+
+WITH top_vagas AS (
+
+    SELECT  
+        job_id AS id_vaga,
+        job_title AS titulo_da_vaga,
+        salary_year_avg AS media_salarial_anual
+    FROM
+        job_postings_fact
+    LEFT JOIN company_dim ON company_dim.company_id = job_postings_fact.company_id
+    WHERE
+        job_title_short = 'Data Analyst'AND
+        salary_year_avg IS NOT NULL AND
+        (job_location LIKE '%Brazil%' OR
+        job_country LIKE '%Brazil%'
+)
+    ORDER BY
+        salary_year_avg DESC
+)
+
+SELECT
+    top_vagas.*,
+    skills AS habilidades
+FROM top_vagas
+    INNER JOIN skills_job_dim ON top_vagas.id_vaga = skills_job_dim.job_id
+    INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY
+    media_salarial_anual DESC;
+
+
+
+/* Principais Insights Técnicos:
+-SQL é a habilidade mais demandada — não surpreende, já que é essencial para manipulação e 
+análise de grandes volumes de dados relacionais. Está presente na maioria das descrições de vagas.
+-Python aparece em segundo lugar — muito utilizado para análise de dados, automação de processos, 
+modelagem estatística e machine learning com bibliotecas como pandas, numpy, scikit-learn e matplotlib.
+-Azure e Databricks são frequentemente requisitados — indicando uma forte tendência de adoção de 
+soluções em nuvem e ambientes de análise distribuída.
+-Power BI e Tableau — ferramentas de BI e visualização de dados estão bem posicionadas, refletindo
+ a importância da comunicação de insights para o negócio.
+-Excel ainda é altamente valorizado, especialmente em empresas que estão em transição para
+ estruturas mais modernas de dados.
+-A presença de ferramentas específicas como Databricks sugere que empresas estão buscando 
+analistas com conhecimento em ambientes big data e processamento em larga escala.
+
+-Diversidade de ferramentas: A variedade de tecnologias sugere que analistas de dados estão 
+sendo cobrados por um perfil técnico híbrido, combinando:
+-Extração e manipulação de dados (SQL, Python)
+-Visualização e storytelling (Power BI, Tableau)
+-Integração com nuvem e plataformas escaláveis (Azure, Databricks)
+
+[
+  {
+    "id_vaga": 1184831,
+    "titulo_da_vaga": "Data Analyst | Partners",
+    "media_salarial_anual": "102500.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 1184831,
+    "titulo_da_vaga": "Data Analyst | Partners",
+    "media_salarial_anual": "102500.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 1184831,
+    "titulo_da_vaga": "Data Analyst | Partners",
+    "media_salarial_anual": "102500.0",
+    "habilidades": "tableau"
+  },
+  {
+    "id_vaga": 1797292,
+    "titulo_da_vaga": "Data Analyst (Python)",
+    "media_salarial_anual": "102500.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 1797292,
+    "titulo_da_vaga": "Data Analyst (Python)",
+    "media_salarial_anual": "102500.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 70304,
+    "titulo_da_vaga": "[Job 11234] Mid-Level Data Analyst - Brasil",
+    "media_salarial_anual": "100500.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 70304,
+    "titulo_da_vaga": "[Job 11234] Mid-Level Data Analyst - Brasil",
+    "media_salarial_anual": "100500.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 70304,
+    "titulo_da_vaga": "[Job 11234] Mid-Level Data Analyst - Brasil",
+    "media_salarial_anual": "100500.0",
+    "habilidades": "azure"
+  },
+  {
+    "id_vaga": 70304,
+    "titulo_da_vaga": "[Job 11234] Mid-Level Data Analyst - Brasil",
+    "media_salarial_anual": "100500.0",
+    "habilidades": "databricks"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "r"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "snowflake"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "tableau"
+  },
+  {
+    "id_vaga": 209495,
+    "titulo_da_vaga": "[JOB-9652 ] Data Analytics Mid",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "power bi"
+  },
+  {
+    "id_vaga": 475521,
+    "titulo_da_vaga": "AML Data Analytics Specialist",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 475521,
+    "titulo_da_vaga": "AML Data Analytics Specialist",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 475521,
+    "titulo_da_vaga": "AML Data Analytics Specialist",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "r"
+  },
+  {
+    "id_vaga": 475521,
+    "titulo_da_vaga": "AML Data Analytics Specialist",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "looker"
+  },
+  {
+    "id_vaga": 703904,
+    "titulo_da_vaga": "Staff Data Analytics | Global Analytics",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 703904,
+    "titulo_da_vaga": "Staff Data Analytics | Global Analytics",
+    "media_salarial_anual": "79200.0",
+    "habilidades": "tableau"
+  },
+  {
+    "id_vaga": 1146822,
+    "titulo_da_vaga": "Data Analyst | Lisboa/ Porto",
+    "media_salarial_anual": "75067.5",
+    "habilidades": "sas"
+  },
+  {
+    "id_vaga": 1146822,
+    "titulo_da_vaga": "Data Analyst | Lisboa/ Porto",
+    "media_salarial_anual": "75067.5",
+    "habilidades": "mysql"
+  },
+  {
+    "id_vaga": 1146822,
+    "titulo_da_vaga": "Data Analyst | Lisboa/ Porto",
+    "media_salarial_anual": "75067.5",
+    "habilidades": "oracle"
+  },
+  {
+    "id_vaga": 1146822,
+    "titulo_da_vaga": "Data Analyst | Lisboa/ Porto",
+    "media_salarial_anual": "75067.5",
+    "habilidades": "power bi"
+  },
+  {
+    "id_vaga": 1146822,
+    "titulo_da_vaga": "Data Analyst | Lisboa/ Porto",
+    "media_salarial_anual": "75067.5",
+    "habilidades": "sas"
+  },
+  {
+    "id_vaga": 955403,
+    "titulo_da_vaga": "[Job- 11490] Mid Level Data Visualization Analyst, Brazil",
+    "media_salarial_anual": "64800.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 955403,
+    "titulo_da_vaga": "[Job- 11490] Mid Level Data Visualization Analyst, Brazil",
+    "media_salarial_anual": "64800.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 955403,
+    "titulo_da_vaga": "[Job- 11490] Mid Level Data Visualization Analyst, Brazil",
+    "media_salarial_anual": "64800.0",
+    "habilidades": "azure"
+  },
+  {
+    "id_vaga": 955403,
+    "titulo_da_vaga": "[Job- 11490] Mid Level Data Visualization Analyst, Brazil",
+    "media_salarial_anual": "64800.0",
+    "habilidades": "tableau"
+  },
+  {
+    "id_vaga": 955403,
+    "titulo_da_vaga": "[Job- 11490] Mid Level Data Visualization Analyst, Brazil",
+    "media_salarial_anual": "64800.0",
+    "habilidades": "flow"
+  },
+  {
+    "id_vaga": 1282410,
+    "titulo_da_vaga": "Data Analyst",
+    "media_salarial_anual": "57500.0",
+    "habilidades": "express"
+  },
+  {
+    "id_vaga": 1282410,
+    "titulo_da_vaga": "Data Analyst",
+    "media_salarial_anual": "57500.0",
+    "habilidades": "excel"
+  },
+  {
+    "id_vaga": 1282410,
+    "titulo_da_vaga": "Data Analyst",
+    "media_salarial_anual": "57500.0",
+    "habilidades": "looker"
+  },
+  {
+    "id_vaga": 1282410,
+    "titulo_da_vaga": "Data Analyst",
+    "media_salarial_anual": "57500.0",
+    "habilidades": "sheets"
+  },
+  {
+    "id_vaga": 1675988,
+    "titulo_da_vaga": "Data Analyst, Merchant Health",
+    "media_salarial_anual": "53014.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 1675988,
+    "titulo_da_vaga": "Data Analyst, Merchant Health",
+    "media_salarial_anual": "53014.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 1675988,
+    "titulo_da_vaga": "Data Analyst, Merchant Health",
+    "media_salarial_anual": "53014.0",
+    "habilidades": "r"
+  },
+  {
+    "id_vaga": 1033517,
+    "titulo_da_vaga": "Project Manager - Infrastructure/Planning/Data Analysis, Nova Lima",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 1033517,
+    "titulo_da_vaga": "Project Manager - Infrastructure/Planning/Data Analysis, Nova Lima",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "vba"
+  },
+  {
+    "id_vaga": 1033517,
+    "titulo_da_vaga": "Project Manager - Infrastructure/Planning/Data Analysis, Nova Lima",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "oracle"
+  },
+  {
+    "id_vaga": 1033517,
+    "titulo_da_vaga": "Project Manager - Infrastructure/Planning/Data Analysis, Nova Lima",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "excel"
+  },
+  {
+    "id_vaga": 1033517,
+    "titulo_da_vaga": "Project Manager - Infrastructure/Planning/Data Analysis, Nova Lima",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "power bi"
+  },
+  {
+    "id_vaga": 1656789,
+    "titulo_da_vaga": "Data Analytics Specialist - Customer Experience",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "sql"
+  },
+  {
+    "id_vaga": 1656789,
+    "titulo_da_vaga": "Data Analytics Specialist - Customer Experience",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "python"
+  },
+  {
+    "id_vaga": 1656789,
+    "titulo_da_vaga": "Data Analytics Specialist - Customer Experience",
+    "media_salarial_anual": "50400.0",
+    "habilidades": "excel"
+  }
+]
+
+*/
+
